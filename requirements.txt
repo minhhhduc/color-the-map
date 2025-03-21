@@ -1,4 +1,5 @@
-pygame
-numpy
-pandas
-gurobipy
+pygame==2.6.0
+numpy==1.26.0
+pandas==2.2.2
+gurobipy==11.0.3
+opencv==4.10.0.84
