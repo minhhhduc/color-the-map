@@ -5,10 +5,10 @@ from source.SolveData import *
 from source.models.Vertex import Vertex
 
 graphInit = 'sample/vietnam.npy'
-mapInit = 'sample/vietnam.csv'
-mapSave = 'asset/maps/vietnam.csv'
+mapInit = 'asset/maps/demo.csv'
+mapSave = 'asset/maps/demo.csv'
 idxPath = 'sample/currentIdx.txt'
-imagePath = 'asset/image/vietnam.png'
+imagePath = 'asset/image/image.png'
 
 # Load data and initialize variables
 
@@ -22,15 +22,17 @@ list_vertex = []
 idx = open(idxPath).readline()
 idx = int(idx.strip()) if idx.strip() else 0
 dict_address = {idx: []}
-
 # Create Vertex objects
-for key, val in enumerate(attach(df)):
-    list_vertex.append(Vertex(key, val))
+
+for id, adj, address in attach(df):
+    list_vertex.append(Vertex(id, adj, address))
+    dict_address[id] = address
 
 # Load and resize the image
 image = cv2.imread(imagePath)
 image = cv2.resize(image, (1100, 750))
 
+print(idx)
 # Mouse callback function to capture coordinates
 def get_coordinates(event, x, y, flags, param):
     if event == cv2.EVENT_LBUTTONDOWN:
@@ -48,14 +50,18 @@ while True:
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):  # Press 'q' to exit
         break
-    elif key == ord('c'):  # Press 'c' to create a new group
+    elif key == ord('n'):  # Press 'c' to create a new group
         idx += 1
         if idx > len(list_vertex):
             print("finished")
             break
-        print('clicked')
-        dict_address[idx] = []
-
+        print(f"next idx: {idx}")
+        # dict_address[idx] = []
+    elif key == ord('b'):
+        idx -= 1
+        if idx < 0:
+            idx = 0
+        print(f"previous idx: {idx}")
 # Clean up OpenCV resources
 cv2.destroyAllWindows()
 

@@ -14,8 +14,17 @@ def load_data(mapPath: str) -> list[tuple[int, int]]:
 def loadMap(mapPath: str):
     return pd.read_csv(mapPath)
 
-def attach(df):
-    return [ast.literal_eval(df['adjacent'][idx]) for idx in range(len(df))]
+def attach(df: pd.DataFrame):
+    keys = df.columns
+
+    llist = [df[key].to_list() for key in keys]
+    n, m = np.shape(llist)
+
+    for i in range(n):
+        for j in range(m):
+            llist[i][j] = ast.literal_eval(str(llist[i][j]))
+    
+    return zip(*llist)
 
 def detach(list_vertex: list[Vertex]):
     list_by_id = [(vertex.getId(), vertex.getAdjacent(), vertex.getAddress()) 
@@ -25,9 +34,8 @@ def detach(list_vertex: list[Vertex]):
 
 def convertGraphToAdj(graphPath: str):
     graph = np.load(graphPath)
-    adj = [(vertex, np.where(vector == 1)[0].tolist()) for vertex, vector in enumerate(graph)]
-
-    return pd.DataFrame(adj, columns=['id', 'adjacent'])
+    adj = [(vertex, np.where(vector == 1)[0].tolist(), []) for vertex, vector in enumerate(graph)]
+    return pd.DataFrame(adj, columns=['id', 'adjacent', 'address'])
 
 def saveMap(df, mapPath: str):
     df.to_csv(mapPath, index=False)

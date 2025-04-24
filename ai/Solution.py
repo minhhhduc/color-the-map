@@ -1,10 +1,8 @@
 import gurobipy as gp
 import numpy as np
 from gurobipy import GRB
-from functools import lru_cache
 
 class Solution:
-    @lru_cache(maxsize=1)
     def __init__(self) -> None:
         pass
 
@@ -22,6 +20,12 @@ class Solution:
         edges = np.array(edges)
         self.__graph[edges[:, 0], edges[:, 1]] = 1
         self.__graph[edges[:, 1], edges[:, 0]] = 1
+    
+    def getGraph(self):
+        return self.__graph
+    
+    def getEdges(self):
+        return self.__edges
 
     def __initModel(self):
         self.__model = gp.Model("Graph Coloring")
@@ -87,8 +91,11 @@ class Solution:
                     print(f"Vertex {v} is colored with color {c}")
                     self.__result.append(c)
 
-    def solve(self, type=1):
+    def optimal(self, type=1):
         if type == 1:
             self.__LPSolution()
         else:
             self.__backtrackSolution()
+
+    def result(self):
+        return self.__result

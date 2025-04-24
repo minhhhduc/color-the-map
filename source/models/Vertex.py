@@ -11,7 +11,7 @@ class Vertex:
         self.__adjacent = adjList
         self.__color = None
         if address:
-            self.__address = []
+            self.__address = address
         else:
             self.__address = []
 
