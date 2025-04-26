@@ -2,6 +2,7 @@ import pandas as pd
 import ast
 import numpy as np
 from .models.Vertex import Vertex
+import cv2
 import os
 
 # load data from map.csv
@@ -41,4 +42,27 @@ def saveMap(df, mapPath: str):
     df.to_csv(mapPath, index=False)
     print(f"Map saved to {mapPath}")
 
+def loadVertex(df: pd.DataFrame, mapDataPath: str):
+    if not os.path.exists(mapDataPath):
+        raise FileNotFoundError(f"Map data file {mapDataPath} not found.")
+    
+    df = loadMap(mapDataPath)
 
+    list_vertex = []
+
+    for id, adj, address in attach(df):
+        list_vertex.append(Vertex(id, adj, address))
+    
+    return list_vertex
+
+def loadImage(imagePath: str):
+    if not os.path.exists(imagePath):
+        raise FileNotFoundError(f"Image file {imagePath} not found.")
+    
+    image = cv2.imread(imagePath)
+    if image is None:
+        raise ValueError(f"Could not read image file {imagePath}.")
+    
+    image = cv2.resize(image, (1100, 750))
+
+    return image
