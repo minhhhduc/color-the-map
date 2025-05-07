@@ -42,7 +42,7 @@ def saveMap(df, mapPath: str):
     df.to_csv(mapPath, index=False)
     print(f"Map saved to {mapPath}")
 
-def loadVertex(df: pd.DataFrame, mapDataPath: str):
+def loadVertex(mapDataPath: str):
     if not os.path.exists(mapDataPath):
         raise FileNotFoundError(f"Map data file {mapDataPath} not found.")
     

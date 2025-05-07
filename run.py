@@ -6,13 +6,13 @@ from source.config import *
 from source.Game import GameManager
 import sys
 
-mapName = 'demo'
+mapName = 'vietnam'
 
 mapDataPath = 'asset/maps/{}.csv'.format(mapName)
 mapImagePath = 'asset/image/{}.png'.format(mapName)
 
 def visualize_solution():
-    list_vertex = loadVertex(mapDataPath, mapDataPath)
+    list_vertex = loadVertex(mapDataPath)
 
     m = MapGame(list_vertex, mapName, mapImagePath)
 

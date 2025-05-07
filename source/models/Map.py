@@ -58,6 +58,12 @@ class MapGame:
         """ color is a tuple (R, G, B) """
         current_color = self.img[y, x]  # BGR
 
+        print(current_color)
+
+        # if np.all(current_color == [0, 0, 0]) \
+        #     or np.all(current_color == [86, 86, 86]) \
+        #     or np.all(current_color == [247, 247, 247]) \
+        #     or np.all(current_color == [97, 97, 97]):
         if np.all(current_color == [0, 0, 0]):
             print("⛔ Không thể tô lên viền đen.")
             return  # Không làm gì nếu là màu đen
